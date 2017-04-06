@@ -7,13 +7,14 @@ import android.os.Bundle;
  */
 
 public interface BaseAction {
-    void init();
+    void init(Bundle savedInstanceState);
     void initView();
     void initData(Bundle savedInstanceState);
     void initListener();
     void showContentView();
     void hideContentView();
-    void showLoadingView();
-    void removeLoadingView();
+    void showLoadingContentView();
+    void removeLoadingContentView();
     void initPresenter();
+    int getRootViewId();
 }

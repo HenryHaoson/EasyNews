@@ -1,10 +1,14 @@
-package cn.henryzhuhao.easynews;
+package cn.henryzhuhao.easynews.business.newsscan;
 
 import android.os.Bundle;
 
-import cn.henryzhuhao.mainframe.frame.base.BaseActivity;
+import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 
-public class MainActivity extends BaseActivity {
+/**
+ * Created by HenryZhuhao on 2017/4/6.
+ */
+
+public class NewsScanFragment extends BaseFragment {
     @Override
     public void initView() {
 
@@ -16,12 +20,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initListener() {
+    public void showContentView() {
 
     }
 
     @Override
-    public void showContentView() {
+    public void initListener() {
 
     }
 

@@ -11,11 +11,11 @@ import cn.henryzhuhao.mainframe.frame.base.action.BaseAction;
  */
 
 public abstract class BaseActivity extends SupportActivity implements BaseAction {
-    private int rootView;
+    //private int rootView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(rootView);
+        setContentView(getRootViewId());
         init(savedInstanceState);
     }
 

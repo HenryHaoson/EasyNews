@@ -14,6 +14,7 @@ import cn.henryzhuhao.mainframe.frame.base.action.BaseAction;
  */
 
 public abstract class BaseFragment extends SupportFragment implements BaseAction{
+    public View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,8 @@ public abstract class BaseFragment extends SupportFragment implements BaseAction
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        view=LayoutInflater.from(getContext()).inflate(getRootViewId(),null);
+        return view;
     }
 
     @Override

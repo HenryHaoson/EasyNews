@@ -2,12 +2,25 @@ package cn.henryzhuhao.easynews;
 
 import android.os.Bundle;
 
-import cn.henryzhuhao.mainframe.frame.base.BaseActivity;
+import cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsListFragment;
+import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 
-public class MainActivity extends BaseActivity {
+/**
+ * Created by HenryZhuhao on 2017/4/10.
+ */
+
+public class Fragment_main extends BaseFragment {
+    public static Fragment_main newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        Fragment_main fragment = new Fragment_main();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public void initView() {
-        startfragment(R.id.activity_container, Fragment_main.newInstance());
+        startfragment(R.id.fg_container, ZhihuNewsListFragment.newInstance());
     }
 
     @Override
@@ -22,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void showContentView() {
-
+        
     }
 
     @Override
@@ -47,6 +60,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public int getRootViewId() {
-        return R.layout.activity_main;
+        return R.layout.fragment_main;
     }
 }

@@ -35,7 +35,7 @@ public class Fragment_main extends BaseFragment {
 
     @Override
     public void showContentView() {
-        
+
     }
 
     @Override

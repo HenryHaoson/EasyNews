@@ -1,6 +1,7 @@
 package cn.henryzhuhao.easynews.business.newsscan;
 
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -23,17 +24,20 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
     private ZhihuNewsListPresenter presenter;
 
     public static ZhihuNewsListFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         ZhihuNewsListFragment fragment = new ZhihuNewsListFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void initView() {
-     rcview_zhihulist= (RecyclerView) view.findViewById(R.id.rcview_zhihulist);
-        rcview_zhihulist.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        rcview_zhihulist = (RecyclerView) view.findViewById(R.id.rcview_zhihulist);
+        rcview_zhihulist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rcview_zhihulist.addItemDecoration(new DividerItemDecoration(
+                getActivity(), DividerItemDecoration.VERTICAL));
         presenter.getZhihuNewsList();
     }
 
@@ -79,7 +83,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
 
     @Override
     public void loadsuccess(final List<ZhihuNewDate> list) {
-        final ZhihuNewsAdapter adapter = new ZhihuNewsAdapter((BaseFragment)getParentFragment(),getContext(), list);
+        final ZhihuNewsAdapter adapter = new ZhihuNewsAdapter((BaseFragment) getParentFragment(), getContext(), list);
         rcview_zhihulist.post(new Runnable() {
             @Override
             public void run() {
@@ -95,7 +99,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
         rcview_zhihulist.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getContext(),error,Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
             }
         });
     }

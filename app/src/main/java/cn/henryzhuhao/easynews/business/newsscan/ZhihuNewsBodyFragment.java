@@ -34,8 +34,6 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
     public void initView() {
         webView = (WebView) view.findViewById(R.id.web_zhihu_body);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//适应内容大小
-
-
         id= App.getInstance().getZhihuId();
         if(id==null){
 

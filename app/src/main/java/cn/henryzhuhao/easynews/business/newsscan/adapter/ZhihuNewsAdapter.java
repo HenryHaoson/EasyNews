@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import cn.henryzhuhao.easynews.R;
 import cn.henryzhuhao.easynews.app.App;
 import cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsBodyFragment;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
+import cn.henryzhuhao.mainframe.imageLoader.ImageLoader;
 
 /**
  * Created by HenryZhuhao on 2017/4/10.
@@ -27,17 +26,22 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
     private Context context;
     private LayoutInflater mInflater;
     private BaseFragment fragment;
+    public ImageLoader imageLoader;
 
     public ZhihuNewsAdapter(BaseFragment fragment, Context context, List<ZhihuNewDate> list) {
         this.context = context;
         this.fragment = fragment;
         this.list = list;
         mInflater = LayoutInflater.from(context);
+        imageLoader=ImageLoader.build(context);
     }
 
     @Override
     public void onBindViewHolder(ZhihuNewsAdapter.MyViewHolder holder, int position) {
-        Glide.with(context).load(list.get(position).getPicUrl()).into(holder.newsPic);
+       // Glide.with(context).load(list.get(position).getPicUrl()).into(holder.newsPic);
+        holder.newsPic.setTag(list.get(position).getPicUrl());
+        imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,holder.newsPic.getMeasuredWidth(),holder.newsPic.getMeasuredHeight());
+    //    imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,20,20);
         holder.newsText.setText(list.get(position).getTitle());
         holder.position = position;
     }

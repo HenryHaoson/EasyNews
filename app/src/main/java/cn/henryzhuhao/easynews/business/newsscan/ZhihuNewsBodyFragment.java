@@ -6,7 +6,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import cn.henryzhuhao.easynews.R;
-import cn.henryzhuhao.easynews.app.App;
 import cn.henryzhuhao.easynews.business.newsscan.adapter.ZhihuNewsBody;
 import cn.henryzhuhao.easynews.business.newsscan.presenter.ZhihuNewsBodyPresenter;
 import cn.henryzhuhao.easynews.business.newsscan.view.ZhihuNewsBodyView;
@@ -17,15 +16,17 @@ import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
  */
 
 public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBodyView {
+    public static final String BUNDLE_KEY_NEWS_ID="bundle.key.newsId";
     public WebView webView;
     public ZhihuNewsBodyPresenter presenter;
-    public String id;
+    public static String id;
 
 
     public static ZhihuNewsBodyFragment newInstance() {
         
         Bundle args = new Bundle();
-        
+        //id=args.getString(BUNDLE_KEY_NEWS_ID);
+        //Log.e("tag",id);
         ZhihuNewsBodyFragment fragment = new ZhihuNewsBodyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -34,7 +35,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
     public void initView() {
         webView = (WebView) view.findViewById(R.id.web_zhihu_body);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//适应内容大小
-        id= App.getInstance().getZhihuId();
+        //id= App.getInstance().getZhihuId();
         if(id==null){
 
         }else {
@@ -47,7 +48,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        
+
     }
 
     @Override

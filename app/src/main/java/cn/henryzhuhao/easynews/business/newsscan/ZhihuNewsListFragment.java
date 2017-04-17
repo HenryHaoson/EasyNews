@@ -20,6 +20,7 @@ import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
  */
 
 public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsListView {
+
     private RecyclerView rcview_zhihulist;
     private ZhihuNewsListPresenter presenter;
 
@@ -87,7 +88,6 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
         rcview_zhihulist.post(new Runnable() {
             @Override
             public void run() {
-
                 rcview_zhihulist.setAdapter(adapter);
             }
         });

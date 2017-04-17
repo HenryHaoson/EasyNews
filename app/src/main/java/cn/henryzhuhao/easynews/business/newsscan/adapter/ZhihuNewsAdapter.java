@@ -2,7 +2,6 @@ package cn.henryzhuhao.easynews.business.newsscan.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.henryzhuhao.easynews.R;
-import cn.henryzhuhao.easynews.app.App;
 import cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsBodyFragment;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 import cn.henryzhuhao.mainframe.imageLoader.ImageLoader;
@@ -33,17 +31,28 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         this.fragment = fragment;
         this.list = list;
         mInflater = LayoutInflater.from(context);
-        imageLoader=ImageLoader.build(context);
+        imageLoader = ImageLoader.build(context);
     }
 
     @Override
-    public void onBindViewHolder(ZhihuNewsAdapter.MyViewHolder holder, int position) {
-       // Glide.with(context).load(list.get(position).getPicUrl()).into(holder.newsPic);
+    public void onBindViewHolder(ZhihuNewsAdapter.MyViewHolder holder, final int position) {
+        // Glide.with(context).load(list.get(position).getPicUrl()).into(holder.newsPic);
         holder.newsPic.setTag(list.get(position).getPicUrl());
-        imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,holder.newsPic.getMeasuredWidth(),holder.newsPic.getMeasuredHeight());
-    //    imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,20,20);
+        imageLoader.bindBitmap(list.get(position).getPicUrl(), holder.newsPic, holder.newsPic.getMeasuredWidth(), holder.newsPic.getMeasuredHeight());
+        //    imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,20,20);
         holder.newsText.setText(list.get(position).getTitle());
-        holder.position = position;
+        holder.content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Bundle args = new Bundle();
+                //args.putString(ZhihuNewsBodyFragment.BUNDLE_KEY_NEWS_ID, list.get(position).getId());
+                ZhihuNewsBodyFragment.id=list.get(position).getId();
+                fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
+
+            }
+        });
+
     }
 
     @Override
@@ -57,28 +66,36 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         return holder;
     }
 
+
     class MyViewHolder extends RecyclerView.ViewHolder {
-        public int position;
+        //public int position;
+        View content;
         ImageView newsPic;
         TextView newsText;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            content = itemView.findViewById(R.id.item_news_content);
             newsPic = (ImageView) itemView.findViewById(R.id.item_news_img);
             newsText = (TextView) itemView.findViewById(R.id.item_news_text);
-            initLisenter(itemView);
+            //initLisenter(itemView);
         }
+//        public void setNewsItemClickedListener(onNewsItemClickedListener listener){
+//
+//        }
 
-        public void initLisenter(View itemView) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    App.getInstance().setZhihuId(list.get(position).getId());
-                    fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
-
-                    Log.e("tag", list.get(position).getId());
-                }
-            });
-        }
+//        public void initLisenter(final View itemView) {
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle args=new Bundle();
+//                    args.putString(ZhihuNewsBodyFragment.BUNDLE_KEY_NEWS_ID,list.get(position).getId());
+//                    fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
+//                }
+//            });
     }
+
+
+
+
 }

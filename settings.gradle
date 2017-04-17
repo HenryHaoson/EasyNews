@@ -1,1 +1,1 @@
-include ':app', ':henryfragmentation', ':mainframe'
+include ':app', ':henryfragmentation', ':mainframe', ':hrecyclerview'

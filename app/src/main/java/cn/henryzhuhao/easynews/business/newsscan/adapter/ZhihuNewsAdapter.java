@@ -48,7 +48,7 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
                 //Bundle args = new Bundle();
                 //args.putString(ZhihuNewsBodyFragment.BUNDLE_KEY_NEWS_ID, list.get(position).getId());
                 ZhihuNewsBodyFragment.id=list.get(position).getId();
-                fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
+                //fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
 
             }
         });
@@ -65,7 +65,12 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_news, null));
         return holder;
     }
-
+    public void updateData(List<ZhihuNewDate> list){
+        this.list=list;
+    }
+    public void loadMoreData(List<ZhihuNewDate> list){
+        this.list.addAll(list);
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         //public int position;

@@ -21,8 +21,11 @@ import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 
 public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsListView {
 
+    private List<ZhihuNewDate> list;
     private RecyclerView rcview_zhihulist;
     private ZhihuNewsListPresenter presenter;
+    private ZhihuNewsAdapter adapter;
+    private Boolean isFirst=true;
 
     public static ZhihuNewsListFragment newInstance() {
 
@@ -39,6 +42,21 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
         rcview_zhihulist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rcview_zhihulist.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
+        rcview_zhihulist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (isVisBottom(recyclerView)){
+                    presenter.loadMoreZhihuNewsList();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
         presenter.getZhihuNewsList();
     }
 
@@ -84,14 +102,26 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
 
     @Override
     public void loadsuccess(final List<ZhihuNewDate> list) {
-        final ZhihuNewsAdapter adapter = new ZhihuNewsAdapter((BaseFragment) getParentFragment(), getContext(), list);
-        rcview_zhihulist.post(new Runnable() {
-            @Override
-            public void run() {
-                rcview_zhihulist.setAdapter(adapter);
-            }
-        });
+        this.list=list;
+        if(isFirst){
+            adapter = new ZhihuNewsAdapter((BaseFragment) getParentFragment(), getContext(), this.list);
+            rcview_zhihulist.post(new Runnable() {
+                @Override
+                public void run() {
+                    rcview_zhihulist.setAdapter(adapter);
+                }
+            });
+            isFirst=false;
+        }else {
+            rcview_zhihulist.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.updateData(list);
+                    adapter.notifyDataSetChanged();
+                }
+            });
 
+        }
     }
 
     @Override
@@ -102,5 +132,32 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
                 Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void loadMore(final List<ZhihuNewDate> list) {
+        rcview_zhihulist.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.loadMoreData(list);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+    public static boolean isVisBottom(RecyclerView recyclerView){
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        //屏幕中最后一个可见子项的position
+        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+        //当前屏幕所看到的子项个数
+        int visibleItemCount = layoutManager.getChildCount();
+        //当前RecyclerView的所有子项个数
+        int totalItemCount = layoutManager.getItemCount();
+        //RecyclerView的滑动状态
+        int state = recyclerView.getScrollState();
+        if(visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && state == recyclerView.SCROLL_STATE_IDLE){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

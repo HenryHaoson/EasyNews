@@ -54,7 +54,7 @@ public class BaseApi {
         }
     }
     public interface ApiCallback<T>{
-        void onSuccess(T issuccess);
+        void onSuccess(T response);
         void onError(int errorCode,String errorMsg);
         void onFailure();
     }

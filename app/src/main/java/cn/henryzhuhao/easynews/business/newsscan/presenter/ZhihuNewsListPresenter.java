@@ -32,4 +32,17 @@ public class ZhihuNewsListPresenter {
             }
         });
     }
+    public void loadMoreZhihuNewsList(){
+        model.getZhihuNewsList(new BaseModel.LoadDateCallBack<List<ZhihuNewDate>>() {
+            @Override
+            public void loadDateSucceed(List<ZhihuNewDate> date) {
+                view.loadMore(date);
+            }
+
+            @Override
+            public void loadDateFailed(String error) {
+
+            }
+        });
+    }
 }

@@ -74,4 +74,8 @@ public class ZhihuScanModel {
         });
 
     }
+    public void getZhihuRx(final BaseModel.LoadDateCallBack<List<ZhihuNewDate>> callBack){
+        Call call=App.getInstance().okHttpClient.newCall(ZhihuNewsListRequest());
+        
+    }
 }

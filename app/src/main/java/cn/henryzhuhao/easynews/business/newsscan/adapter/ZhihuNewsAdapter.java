@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cn.henryzhuhao.easynews.MainActivity;
 import cn.henryzhuhao.easynews.R;
 import cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsBodyFragment;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
@@ -48,7 +49,9 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
                 //Bundle args = new Bundle();
                 //args.putString(ZhihuNewsBodyFragment.BUNDLE_KEY_NEWS_ID, list.get(position).getId());
                 ZhihuNewsBodyFragment.id=list.get(position).getId();
+                ZhihuNewsBodyFragment.title=list.get(position).getTitle();
                 //fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
+                ((MainActivity)fragment.getActivity()).startfragment(R.id.activity_container,ZhihuNewsBodyFragment.newInstance());
 
             }
         });

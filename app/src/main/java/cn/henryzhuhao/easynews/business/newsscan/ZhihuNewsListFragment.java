@@ -1,6 +1,7 @@
 package cn.henryzhuhao.easynews.business.newsscan;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
     private ZhihuNewsListPresenter presenter;
     private ZhihuNewsAdapter adapter;
     private Boolean isFirst=true;
+    private SwipeRefreshLayout mRefresh;
 
     public static ZhihuNewsListFragment newInstance() {
 
@@ -38,6 +40,13 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
 
     @Override
     public void initView() {
+        mRefresh= (SwipeRefreshLayout) view.findViewById(R.id.zhihulist_refresh);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getZhihuList();
+            }
+        });
         rcview_zhihulist = (RecyclerView) view.findViewById(R.id.rcview_zhihulist);
         rcview_zhihulist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rcview_zhihulist.addItemDecoration(new DividerItemDecoration(
@@ -100,11 +109,14 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
         return R.layout.fragment_zhihunewslist;
     }
 
+    public void getZhihuList(){
+        presenter.getZhihuNewsList();
+    }
     @Override
     public void loadsuccess(final List<ZhihuNewDate> list) {
         this.list=list;
         if(isFirst){
-            adapter = new ZhihuNewsAdapter((BaseFragment) getParentFragment(), getContext(), this.list);
+            adapter = new ZhihuNewsAdapter(this, getContext(), this.list);
             rcview_zhihulist.post(new Runnable() {
                 @Override
                 public void run() {
@@ -122,6 +134,13 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
             });
 
         }
+        mRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                mRefresh.setRefreshing(false);
+            }
+        });
+
     }
 
     @Override

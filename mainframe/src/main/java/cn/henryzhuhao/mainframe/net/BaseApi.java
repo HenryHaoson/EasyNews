@@ -2,9 +2,9 @@ package cn.henryzhuhao.mainframe.net;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by HenryZhuhao on 2017/4/8.

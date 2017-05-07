@@ -65,7 +65,7 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
 
     @Override
     public ZhihuNewsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_news, null));
+        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_news, parent,false));
         return holder;
     }
     public void updateData(List<ZhihuNewDate> list){

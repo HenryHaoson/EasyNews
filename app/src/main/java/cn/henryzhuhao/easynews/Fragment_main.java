@@ -22,7 +22,6 @@ import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 /**
  * Created by HenryZhuhao on 2017/4/10.
  */
-
 public class Fragment_main extends BaseFragment implements View.OnClickListener {
     public DrawerLayout drawerLayout;
     public ViewPager viewPager;

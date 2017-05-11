@@ -14,6 +14,7 @@ import cn.henryzhuhao.easynews.business.newsscan.adapter.ZhihuNewsAdapter;
 import cn.henryzhuhao.easynews.business.newsscan.presenter.ZhihuNewsListPresenter;
 import cn.henryzhuhao.easynews.business.newsscan.view.ZhihuNewsListView;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
+import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
 
 /**
  * Created by HenryZhuhao on 2017/4/10.
@@ -47,6 +48,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
             }
         });
         rcview_zhihulist = (RecyclerView) view.findViewById(R.id.rcview_zhihulist);
+
         rcview_zhihulist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
        // rcview_zhihulist.addItemDecoration(new DividerItemDecoration(
         //        getActivity(), DividerItemDecoration.VERTICAL));
@@ -55,7 +57,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (isVisBottom(recyclerView)){
-                    //presenter.loadMoreZhihuNewsList();
+                    presenter.loadMoreZhihuNewsList();
                 }
             }
 
@@ -80,6 +82,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
 
     @Override
     public void showContentView() {
+            Object object=new Object();
 
     }
 
@@ -116,10 +119,11 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
         this.list=list;
         if(isFirst){
             adapter = new ZhihuNewsAdapter(this, getContext(), this.list);
+            final SlideInRightAnimationAdapter animAdapter = new SlideInRightAnimationAdapter(adapter);
             rcview_zhihulist.post(new Runnable() {
                 @Override
                 public void run() {
-                    rcview_zhihulist.setAdapter(adapter);
+                    rcview_zhihulist.setAdapter(animAdapter);
                 }
             });
             isFirst=false;

@@ -74,7 +74,7 @@ public class ZhihuNewsListPresenter {
 
                     @Override
                     public void onComplete() {
-                        view.loadsuccess(mdata);
+                        //view.loadsuccess(mdata);
                         Log.e("tag","oncompleted");
                     }
 
@@ -100,5 +100,46 @@ public class ZhihuNewsListPresenter {
                     }
                 });
 
+    }
+    public void loadMoreZhihuNewsList(){
+        ZhihuNewsApi api = ApiFactory.newInstance().createApi(ZhihuNewsApi.class);
+        Observable<ZhihuNewsList> observable = api.getZhihuNews();
+        Log.e("tag","rxjava start");
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ZhihuNewsList>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("tag","error"+e.toString());
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        //view.loadMore(mdata);
+                        Log.e("tag","oncompleted");
+                    }
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ZhihuNewsList zhihuNewsList) {
+                        List<ZhihuNewsList.StoriesBean> getlist = zhihuNewsList.getStories();
+                        List<ZhihuNewDate> data = new ArrayList<>();
+                        for (ZhihuNewsList.StoriesBean bean : getlist) {
+                            ZhihuNewDate zhihuNewDate = new ZhihuNewDate();
+                            zhihuNewDate.setId(bean.getId() + "");
+                            zhihuNewDate.setTitle(bean.getTitle());
+                            zhihuNewDate.setPicUrl(bean.getImages().get(0));
+                            data.add(zhihuNewDate);
+                        }
+                        mdata=data;
+                        view.loadMore(mdata);
+                        Log.e("tag","onnext");
+                    }
+                });
     }
 }

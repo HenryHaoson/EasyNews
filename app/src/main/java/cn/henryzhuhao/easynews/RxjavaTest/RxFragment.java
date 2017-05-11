@@ -1,6 +1,7 @@
 package cn.henryzhuhao.easynews.RxjavaTest;
 
 import android.os.Bundle;
+import android.view.View;
 
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 
@@ -8,11 +9,11 @@ import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
  * Created by HenryZhuhao on 2017/4/25.
  */
 
-public class RxFragment extends BaseFragment {
+public class RxFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void initView() {
-        
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -55,4 +56,8 @@ public class RxFragment extends BaseFragment {
         return 0;
     }
 
+    @Override
+    public void onClick(View view) {
+
+    }
 }

@@ -1,6 +1,10 @@
 package cn.henryzhuhao.easynews.business.newsscan.adapter;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.transition.Fade;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +16,7 @@ import java.util.List;
 
 import cn.henryzhuhao.easynews.MainActivity;
 import cn.henryzhuhao.easynews.R;
+import cn.henryzhuhao.easynews.business.Trasitions.DetailTransitions;
 import cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsBodyFragment;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 import cn.henryzhuhao.mainframe.imageLoader.ImageLoader;
@@ -36,22 +41,25 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(ZhihuNewsAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final ZhihuNewsAdapter.MyViewHolder holder, final int position) {
+        ViewCompat.setTransitionName(holder.newsPic, String.valueOf(position) + "_image");
         // Glide.with(context).load(list.get(position).getPicUrl()).into(holder.newsPic);
         holder.newsPic.setTag(list.get(position).getPicUrl());
         imageLoader.bindBitmap(list.get(position).getPicUrl(), holder.newsPic, holder.newsPic.getMeasuredWidth(), holder.newsPic.getMeasuredHeight());
         //    imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,20,20);
         holder.newsText.setText(list.get(position).getTitle());
         holder.content.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
-
-                //Bundle args = new Bundle();
-                //args.putString(ZhihuNewsBodyFragment.BUNDLE_KEY_NEWS_ID, list.get(position).getId());
-                ZhihuNewsBodyFragment.id=list.get(position).getId();
-                ZhihuNewsBodyFragment.title=list.get(position).getTitle();
-                //fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
-                ((MainActivity)fragment.getActivity()).startfragment(R.id.activity_container,ZhihuNewsBodyFragment.newInstance());
+                ZhihuNewsBodyFragment bodyFragment=ZhihuNewsBodyFragment.newInstance(list.get(position).getId(),
+                        list.get(position).getTitle(),list.get(position).getPicUrl());
+//                bodyFragment.setExitTransition(new Fade());
+//                bodyFragment.setEnterTransition(new Fade());
+                bodyFragment.setSharedElementEnterTransition(new DetailTransitions());
+                bodyFragment.setEnterTransition(new Fade());
+                bodyFragment.setSharedElementReturnTransition(new DetailTransitions());
+                ((MainActivity)fragment.getActivity()).startfragment(R.id.activity_container, bodyFragment);
 
             }
         });
@@ -86,21 +94,8 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
             content = itemView.findViewById(R.id.item_news_content);
             newsPic = (ImageView) itemView.findViewById(R.id.item_news_img);
             newsText = (TextView) itemView.findViewById(R.id.item_news_text);
-            //initLisenter(itemView);
         }
-//        public void setNewsItemClickedListener(onNewsItemClickedListener listener){
-//
-//        }
 
-//        public void initLisenter(final View itemView) {
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Bundle args=new Bundle();
-//                    args.putString(ZhihuNewsBodyFragment.BUNDLE_KEY_NEWS_ID,list.get(position).getId());
-//                    fragment.startfragment(R.id.fg_container, ZhihuNewsBodyFragment.newInstance());
-//                }
-//            });
     }
 
 

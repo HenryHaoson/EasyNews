@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import java.util.List;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 public class FragmentBaseTransaction {
     private FragmentBaseTransaction() {
-
     }
 
     public static Builder start(FragmentManager fm) {
@@ -85,6 +85,10 @@ public class FragmentBaseTransaction {
                 }
                 hide(fragment);
             }
+            return this;
+        }
+        public Builder addSharedElement(View view,String transitionName){
+            ft.addSharedElement(view,transitionName);
             return this;
         }
 

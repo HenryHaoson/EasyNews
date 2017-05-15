@@ -25,7 +25,7 @@ import cn.henryzhuhao.henryfragmentation.exception.SupportException;
 public class SupportActivity extends AppCompatActivity implements SupportActivityAction {
     protected String Tag = this.getClass().getSimpleName();
     private SupportFragmentStack mFragmentStack;
-    protected FragmentManager fm;
+    public FragmentManager fm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class SupportActivity extends AppCompatActivity implements SupportActivit
     }
 
     @Override
-    public void loadfragments(@IdRes int containerId, int postion, @NonNull SupportFragment... fragments) {
+    public void loadfragments(@IdRes int containerId, int position, @NonNull SupportFragment... fragments) {
 //        for (SupportFragment fragment:fragments){
 //            if (mFragmentStack.addTagToStack(fragment.getFragmentTAG())) {
 //                FragmentBaseTransaction.start(fm).add(containerId, fragment).commit();

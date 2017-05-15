@@ -9,17 +9,28 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="200dp">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/colorPrimary"
+            >
+            <ImageView
+                android:id="@+id/artical_toolbar_Pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                app:layout_collapseParallaxMultiplier="0.7"/>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/artical_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="文章"
             app:titleTextColor="#ffffff"
-            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"/>
-
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:layout_collapseMode="pin"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView

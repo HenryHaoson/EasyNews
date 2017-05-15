@@ -2,16 +2,17 @@ package cn.henryzhuhao.easynews.business.newsscan;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 
 import cn.henryzhuhao.easynews.R;
 import cn.henryzhuhao.easynews.business.newsscan.adapter.ZhihuNewsBody;
 import cn.henryzhuhao.easynews.business.newsscan.presenter.ZhihuNewsBodyPresenter;
 import cn.henryzhuhao.easynews.business.newsscan.view.ZhihuNewsBodyView;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
+import cn.henryzhuhao.mainframe.imageLoader.ImageLoader;
 
 /**
  * Created by HenryZhuhao on 2017/4/10.
@@ -21,9 +22,11 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
     public static final String BUNDLE_KEY_NEWS_ID="bundle.key.newsId";
     public Toolbar toolbar;
     public WebView webView;
+    public ImageView articalToolbarPic;
     public ZhihuNewsBodyPresenter presenter;
-    public static String id;
-    public static String title;
+    public static String mId;
+    public static String mTitle;
+    public static String mPicUrl;
     public String css = "<style type=\"text/css\"> img {" +
             "max-width:100%;" +//限定图片宽度填充屏幕
             "height:auto;" +//限定图片高度自动
@@ -37,11 +40,12 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
             "}" +
             "</style>";
 
-    public static ZhihuNewsBodyFragment newInstance() {
+    public static ZhihuNewsBodyFragment newInstance(String id,String title,String picUrl) {
         
         Bundle args = new Bundle();
-        //id=args.getString(BUNDLE_KEY_NEWS_ID);
-        //Log.e("tag",id);
+        mId=id;
+        mPicUrl=picUrl;
+        mTitle=title;
         ZhihuNewsBodyFragment fragment = new ZhihuNewsBodyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,16 +61,14 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
                 close();
             }
         });
+        articalToolbarPic= (ImageView) view.findViewById(R.id.artical_toolbar_Pic);
+        ImageLoader imageLoader=ImageLoader.build(getContext());
+        imageLoader.bindBitmap(mPicUrl,articalToolbarPic);
         //id= App.getInstance().getZhihuId();
 
-        if(id==null){
-
-        }else {
-            Log.e("tag",id);
-        }
 
         presenter=new ZhihuNewsBodyPresenter(this);
-        presenter.getZhihuNewsBody(id);
+        presenter.getZhihuNewsBody(mId);
     }
 
     @Override
@@ -114,7 +116,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
         webView.post(new Runnable() {
             @Override
             public void run() {
-                toolbar.setTitle(title);
+                toolbar.setTitle(mTitle);
                 webView.loadDataWithBaseURL(null, body.getBody()+css, "text/html", "utf-8", null);
             }
         });

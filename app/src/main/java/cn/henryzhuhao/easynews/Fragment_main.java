@@ -9,15 +9,19 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.henryzhuhao.easynews.business.newsscan.NewsScanFragment;
 import cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsListFragment;
+import cn.henryzhuhao.easynews.business.translate.TranslateFragment;
+import cn.henryzhuhao.easynews.business.videos.VideoListFragment;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
+import cn.henryzhuhao.mainframe.view.photoview.HphotoFragment;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /**
  * Created by HenryZhuhao on 2017/4/10.
@@ -62,10 +66,18 @@ public class Fragment_main extends BaseFragment implements View.OnClickListener 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
         ZhihuNewsListFragment fragment1 = ZhihuNewsListFragment.newInstance();
-        NewsScanFragment fragment2 = NewsScanFragment.newInstance();
+        VideoListFragment fragment2 = VideoListFragment.newInstance();
         ZhihuNewsListFragment fragment3 = ZhihuNewsListFragment.newInstance();
-        ZhihuNewsListFragment fragment4 = ZhihuNewsListFragment.newInstance();
-        ZhihuNewsListFragment fragment5 = ZhihuNewsListFragment.newInstance();
+//        ZhihuNewsListFragment fragment4 = ZhihuNewsListFragment.newInstance();
+        TranslateFragment fragment5 = TranslateFragment.newInstance();
+        ArrayList<String> list=new ArrayList<>();
+        list.add("http://01.imgmini.eastday.com/mobile/20170407/20170407140225_1c6021bb96a29c833e860198b4d869a9_1_mwpm_03200403.jpeg");
+        list.add("http://01.imgmini.eastday.com/mobile/20170407/20170407140225_1c6021bb96a29c833e860198b4d869a9_1_mwpm_03200403.jpeg");
+        list.add("http://01.imgmini.eastday.com/mobile/20170407/20170407140225_1c6021bb96a29c833e860198b4d869a9_1_mwpm_03200403.jpeg");
+        list.add("http://01.imgmini.eastday.com/mobile/20170407/20170407140225_1c6021bb96a29c833e860198b4d869a9_1_mwpm_03200403.jpeg");
+        list.add("http://01.imgmini.eastday.com/mobile/20170407/20170407140225_1c6021bb96a29c833e860198b4d869a9_1_mwpm_03200403.jpeg");
+        list.add("http://01.imgmini.eastday.com/mobile/20170407/20170407140225_1c6021bb96a29c833e860198b4d869a9_1_mwpm_03200403.jpeg");
+        HphotoFragment fragment4=HphotoFragment.newInstance(list);
         fragments = new ArrayList<>();
         fragments.add(fragment1);
         fragments.add(fragment2);
@@ -185,10 +197,13 @@ public class Fragment_main extends BaseFragment implements View.OnClickListener 
         }
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.toolbaritem,menu);
-//    }
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            Log.e("tag",JCVideoPlayer.backPress()+"");
+            return;
+        }
+        super.onBackPressed();
+    }
+
 }

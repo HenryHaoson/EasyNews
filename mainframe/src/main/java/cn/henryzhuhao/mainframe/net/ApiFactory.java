@@ -18,7 +18,7 @@ public class ApiFactory {
 
     private ApiFactory (){
 
-    };
+    }
     public static ApiFactory newInstance(){
         return new ApiFactory();
     }

@@ -11,6 +11,7 @@ import cn.henryzhuhao.mainframe.frame.base.action.BaseAction;
  */
 
 public abstract class BaseActivity extends SupportActivity implements BaseAction {
+    public static int REQUEST_CODE_PERMISSION=2;
     //private int rootView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

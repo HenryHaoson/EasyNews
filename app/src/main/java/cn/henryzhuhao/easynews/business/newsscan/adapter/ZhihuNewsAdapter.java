@@ -1,11 +1,13 @@
 package cn.henryzhuhao.easynews.business.newsscan.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.transition.Fade;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,21 +51,30 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         //    imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,20,20);
         holder.newsText.setText(list.get(position).getTitle());
         holder.content.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
-                ZhihuNewsBodyFragment bodyFragment=ZhihuNewsBodyFragment.newInstance(list.get(position).getId(),
-                        list.get(position).getTitle(),list.get(position).getPicUrl());
-//                bodyFragment.setExitTransition(new Fade());
-//                bodyFragment.setEnterTransition(new Fade());
-                bodyFragment.setSharedElementEnterTransition(new DetailTransitions());
-                bodyFragment.setEnterTransition(new Fade());
+                holder.newsPic.setTransitionName(position + list.get(position).getPicUrl());
+                ZhihuNewsBodyFragment bodyFragment = ZhihuNewsBodyFragment.newInstance(list.get(position).getId(),
+                        list.get(position).getTitle(), list.get(position).getPicUrl(), holder.newsPic.getTransitionName());
+                Slide slideTransition = new Slide(Gravity.RIGHT);
+                slideTransition.setDuration(800);
+                fragment.setEnterTransition(slideTransition);
+                fragment.setExitTransition(slideTransition);
+                fragment.setSharedElementReturnTransition(new DetailTransitions());
+                bodyFragment.setEnterTransition(slideTransition);
+                bodyFragment.setExitTransition(slideTransition);
                 bodyFragment.setSharedElementReturnTransition(new DetailTransitions());
-                ((MainActivity)fragment.getActivity()).startfragment(R.id.activity_container, bodyFragment);
+                bodyFragment.setSharedElementEnterTransition(new DetailTransitions());
+
+                fragment.getActivity().getSupportFragmentManager().beginTransaction().addSharedElement(holder.newsPic,
+                        "transition");
+                ((MainActivity) fragment.getActivity()).startfragment(R.id.activity_container, bodyFragment);
+
 
             }
         });
-
     }
 
     @Override
@@ -73,13 +84,15 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
 
     @Override
     public ZhihuNewsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_news, parent,false));
+        MyViewHolder holder = new MyViewHolder(mInflater.inflate(R.layout.item_news, parent, false));
         return holder;
     }
-    public void updateData(List<ZhihuNewDate> list){
-        this.list=list;
+
+    public void updateData(List<ZhihuNewDate> list) {
+        this.list = list;
     }
-    public void loadMoreData(List<ZhihuNewDate> list){
+
+    public void loadMoreData(List<ZhihuNewDate> list) {
         this.list.addAll(list);
     }
 
@@ -97,8 +110,6 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         }
 
     }
-
-
 
 
 }

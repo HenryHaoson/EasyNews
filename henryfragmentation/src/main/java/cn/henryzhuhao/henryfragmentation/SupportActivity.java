@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.henryzhuhao.henryfragmentation.action.SupportActivityAction;
 import cn.henryzhuhao.henryfragmentation.exception.HasBeenAddedException;
@@ -26,6 +27,7 @@ public class SupportActivity extends AppCompatActivity implements SupportActivit
     protected String Tag = this.getClass().getSimpleName();
     private SupportFragmentStack mFragmentStack;
     public FragmentManager fm;
+    public List<FragmentBaseTransaction.Builder> executeList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +108,10 @@ public class SupportActivity extends AppCompatActivity implements SupportActivit
     public void restoreFragmentStack(Bundle savedInstanceState) {
         mFragmentStack.restoreStack((ArrayList<String>) savedInstanceState.getSerializable(SupportFragmentStack.SAVED_KEY_FRAGMENT_STACK));
     }
+//    //拦截返回事件
+//    public Boolean interceptBackPressed(){
+//        return false;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -131,4 +137,5 @@ public class SupportActivity extends AppCompatActivity implements SupportActivit
     public void throwException(SupportException e) {
         throw e;
     }
+
 }

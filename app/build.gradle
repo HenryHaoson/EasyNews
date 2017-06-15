@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "cn.henryzhuhao.easynews"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -16,6 +17,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    greendao {
+        schemaVersion 1
+        daoPackage 'cn.henryzhuhao.easynews.gen'
+        targetGenDir 'src/main/java'
     }
 }
 
@@ -35,4 +41,6 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
+    compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
+    compile 'org.greenrobot:greendao:3.2.0'
 }

@@ -18,7 +18,7 @@ import cn.henryzhuhao.mainframe.imageLoader.ImageLoader;
  * Created by HenryZhuhao on 2017/4/10.
  */
 
-public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBodyView {
+public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBodyView{
     public static final String BUNDLE_KEY_NEWS_ID="bundle.key.newsId";
     public Toolbar toolbar;
     public WebView webView;
@@ -27,6 +27,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
     public static String mId;
     public static String mTitle;
     public static String mPicUrl;
+    public static String mTransitionName;
     public String css = "<style type=\"text/css\"> img {" +
             "max-width:100%;" +//限定图片宽度填充屏幕
             "height:auto;" +//限定图片高度自动
@@ -40,16 +41,29 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
             "}" +
             "</style>";
 
-    public static ZhihuNewsBodyFragment newInstance(String id,String title,String picUrl) {
+    public static ZhihuNewsBodyFragment newInstance(String id,String title,String picUrl,String transitonName) {
         
         Bundle args = new Bundle();
+
         mId=id;
         mPicUrl=picUrl;
         mTitle=title;
+        mTransitionName=transitonName;
         ZhihuNewsBodyFragment fragment = new ZhihuNewsBodyFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
+    ///////////////////////////////////////////////////////
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        postponeEnterTransition();
+    }
+
     @Override
     public void initView() {
         webView = (WebView) view.findViewById(R.id.web_zhihu_body);
@@ -62,13 +76,16 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
             }
         });
         articalToolbarPic= (ImageView) view.findViewById(R.id.artical_toolbar_Pic);
+//        articalToolbarPic.setTransitionName(mTransitionName);
         ImageLoader imageLoader=ImageLoader.build(getContext());
         imageLoader.bindBitmap(mPicUrl,articalToolbarPic);
         //id= App.getInstance().getZhihuId();
 
-
         presenter=new ZhihuNewsBodyPresenter(this);
         presenter.getZhihuNewsBody(mId);
+
+
+
     }
 
     @Override
@@ -122,4 +139,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
         });
 
     }
+
+
+
 }

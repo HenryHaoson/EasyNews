@@ -25,16 +25,21 @@ public class FragmentBaseTransaction {
         private FragmentManager fm;
         private FragmentTransaction ft;
 
+
         private Builder(FragmentManager fm) {
             this.fm = fm;
             ft = fm.beginTransaction();
         }
 
+        private FragmentTransaction getFt(){
+            return ft;
+        }
         public void commit() {
-            ft.commitAllowingStateLoss();
-            fm.executePendingTransactions();
-            ft = null;
-            fm = null;
+//            ft.commitAllowingStateLoss();
+//            fm.executePendingTransactions();
+//            ft = null;
+//            fm = null;
+            ft.commit();
         }
 
         public Builder add(@IdRes int containerId, @NonNull Fragment fragment) {

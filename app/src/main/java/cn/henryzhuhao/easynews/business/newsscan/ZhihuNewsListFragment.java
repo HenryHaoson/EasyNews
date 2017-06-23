@@ -2,6 +2,7 @@ package cn.henryzhuhao.easynews.business.newsscan;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -50,8 +51,8 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
         rcview_zhihulist = (RecyclerView) view.findViewById(R.id.rcview_zhihulist);
 
         rcview_zhihulist.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-       // rcview_zhihulist.addItemDecoration(new DividerItemDecoration(
-        //        getActivity(), DividerItemDecoration.VERTICAL));
+        rcview_zhihulist.addItemDecoration(new DividerItemDecoration(
+                getActivity(), DividerItemDecoration.VERTICAL));
         rcview_zhihulist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

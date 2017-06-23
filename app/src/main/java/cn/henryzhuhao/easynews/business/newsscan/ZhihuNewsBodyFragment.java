@@ -3,16 +3,23 @@ package cn.henryzhuhao.easynews.business.newsscan;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import cn.henryzhuhao.easynews.MainActivity;
 import cn.henryzhuhao.easynews.R;
 import cn.henryzhuhao.easynews.business.newsscan.adapter.ZhihuNewsBody;
 import cn.henryzhuhao.easynews.business.newsscan.presenter.ZhihuNewsBodyPresenter;
 import cn.henryzhuhao.easynews.business.newsscan.view.ZhihuNewsBodyView;
 import cn.henryzhuhao.mainframe.frame.base.BaseFragment;
 import cn.henryzhuhao.mainframe.imageLoader.ImageLoader;
+import cn.henryzhuhao.mainframe.view.photoview.HphotoFragment;
 
 /**
  * Created by HenryZhuhao on 2017/4/10.
@@ -24,6 +31,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
     public WebView webView;
     public ImageView articalToolbarPic;
     public ZhihuNewsBodyPresenter presenter;
+    public String htmlbody;
     public static String mId;
     public static String mTitle;
     public static String mPicUrl;
@@ -40,6 +48,19 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
             "word-wrap:break-word;"+//允许自动换行(汉字网页应该不需要这一属性,这个用来强制英文单词换行,类似于word/wps中的西文换行)
             "}" +
             "</style>";
+
+    public String js="<script>\n" +
+            "        function sayHello()\n" +
+            "        {\n" +
+            "             alert(\"Hello\")\n" +
+            "         }\n" +
+            "         var aTag = document.getElementsByTagName('img')[0];\n" +
+            "         aTag.addEventListener('click', function(){\n" +
+            "        //调用android本地方法\n" +
+            "            control.startPhotoView();\n" +
+            "             return false;\n" +
+            "          }, false);\n" +
+            "    </script>";
 
     public static ZhihuNewsBodyFragment newInstance(String id,String title,String picUrl,String transitonName) {
         
@@ -63,11 +84,13 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
         super.onCreate(savedInstanceState);
         postponeEnterTransition();
     }
-
     @Override
     public void initView() {
         webView = (WebView) view.findViewById(R.id.web_zhihu_body);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//适应内容大小
+        webView.getSettings().setJavaScriptEnabled(true);
+        //设置本地调用对象及其接口
+        webView.addJavascriptInterface(new JsInteraction(), "control");
         toolbar= (Toolbar) view.findViewById(R.id.artical_toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +109,45 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
 
 
 
+    }
+
+    public class JsInteraction {
+        @JavascriptInterface
+        public void startPhotoView() {   //提供给js调用的方法
+            ((MainActivity)getActivity()).startfragment(R.id.activity_container, HphotoFragment.newInstance(getImgs(htmlbody)));
+
+        }
+    }
+    public ArrayList<String> getImgs(String content) {
+        String img = "";
+        Pattern p_image;
+        Matcher m_image;
+        String str = "";
+        ArrayList<String> images = new ArrayList<>();
+        String regEx_img = "(<img.*srcs*=s*(.*?)[^>]*?>)";
+        p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+        m_image = p_image.matcher(content);
+        while (m_image.find()) {
+            img = m_image.group();
+            Matcher m = Pattern.compile("src\\s*=\\s*\"?(.*?)(\"|>|\\s+)")
+                    .matcher(img);
+            while (m.find()) {
+                String tempSelected = m.group(1);
+                if ("".equals(str)) {
+                    str = tempSelected;
+                } else {
+                    String temp = tempSelected;
+                    str = str + "," + temp;
+                }
+            }
+        }
+        if (!"".equals(str)) {
+//            images.add(str.split(","));
+            for(int i=0;i<str.split(",").length;i++){
+                images.add(str.split(",")[i]);
+            }
+        }
+        return images;
     }
 
     @Override
@@ -134,7 +196,8 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
             @Override
             public void run() {
                 toolbar.setTitle(mTitle);
-                webView.loadDataWithBaseURL(null, body.getBody()+css, "text/html", "utf-8", null);
+                htmlbody=body.getBody();
+                webView.loadDataWithBaseURL(null, body.getBody()+css+js, "text/html", "utf-8", null);
             }
         });
 

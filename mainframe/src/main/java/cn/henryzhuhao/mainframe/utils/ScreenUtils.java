@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -119,6 +120,15 @@ public class ScreenUtils
                 - statusBarHeight);
         view.destroyDrawingCache();
         return bp;
+
+    }
+    public static int dp2px(Context context, float dpVal)
+
+    {
+
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+
+                dpVal, context.getResources().getDisplayMetrics());
 
     }
 

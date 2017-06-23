@@ -138,4 +138,15 @@ public class SupportActivity extends AppCompatActivity implements SupportActivit
         throw e;
     }
 
+
+
+    public void hideAll(){
+        FragmentBaseTransaction.start(fm).hideAll().commit();
+    }
+
+    public SupportFragment getPreFragment(){
+        SupportFragment fragmentByTag = (SupportFragment)fm.findFragmentByTag(mFragmentStack.getFragmentStack().get(0));
+        return fragmentByTag;
+    }
+
 }

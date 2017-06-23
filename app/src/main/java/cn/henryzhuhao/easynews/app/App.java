@@ -9,7 +9,11 @@ import java.util.concurrent.TimeUnit;
 
 import cn.henryzhuhao.easynews.gen.DaoMaster;
 import cn.henryzhuhao.easynews.gen.DaoSession;
+import cn.henryzhuhao.mainframe.utils.SPUtils;
 import okhttp3.OkHttpClient;
+
+import static cn.henryzhuhao.easynews.app.AppContants.LOGINSTATUS_LOGOUT;
+import static cn.henryzhuhao.easynews.app.AppContants.SP_LOGINSTATUS;
 
 /**
  * Created by HenryZhuhao on 2017/4/7.
@@ -17,6 +21,7 @@ import okhttp3.OkHttpClient;
 
 public class App extends Application {
     private static App instance;
+    private int LoginStatus;
     public OkHttpClient okHttpClient;
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
@@ -46,6 +51,7 @@ public class App extends Application {
 
         initOkHttp();
         setDatabase();
+        LoginStatus= (int) SPUtils.get(getApplicationContext(),AppContants.SP_LOGINSTATUS, LOGINSTATUS_LOGOUT);
     }
     private void initOkHttp() {
         okhttp3.OkHttpClient.Builder ClientBuilder=new okhttp3.OkHttpClient.Builder();
@@ -78,4 +84,12 @@ public class App extends Application {
         return db;
     }
 
+    public int getLoginStatus() {
+        return LoginStatus;
+    }
+
+    public void setLoginStatus(int loginStatus) {
+        LoginStatus = loginStatus;
+        SPUtils.put(getApplicationContext(), SP_LOGINSTATUS,loginStatus);
+    }
 }

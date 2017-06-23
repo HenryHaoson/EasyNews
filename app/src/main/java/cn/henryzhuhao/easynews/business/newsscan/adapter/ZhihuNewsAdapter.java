@@ -50,6 +50,7 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         imageLoader.bindBitmap(list.get(position).getPicUrl(), holder.newsPic, holder.newsPic.getMeasuredWidth(), holder.newsPic.getMeasuredHeight());
         //    imageLoader.bindBitmap(list.get(position).getPicUrl(),holder.newsPic,20,20);
         holder.newsText.setText(list.get(position).getTitle());
+//        holder.newsDate.setText(list.get(position).getDate());
         holder.content.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -101,12 +102,14 @@ public class ZhihuNewsAdapter extends RecyclerView.Adapter<ZhihuNewsAdapter.MyVi
         View content;
         ImageView newsPic;
         TextView newsText;
+        TextView newsDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             content = itemView.findViewById(R.id.item_news_content);
             newsPic = (ImageView) itemView.findViewById(R.id.item_news_img);
             newsText = (TextView) itemView.findViewById(R.id.item_news_text);
+            newsDate= (TextView) itemView.findViewById(R.id.item_news_date);
         }
 
     }

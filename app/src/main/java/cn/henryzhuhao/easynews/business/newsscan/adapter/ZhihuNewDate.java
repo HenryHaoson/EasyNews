@@ -9,6 +9,18 @@ public class ZhihuNewDate {
     private String picUrl;
     private String title;
     private String content;
+    private String Date;
+
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+
 
     public String getId() {
         return id;

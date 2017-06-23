@@ -58,6 +58,7 @@ public class ZhihuScanModel {
                         zhihuNewDate.setId(bean.getId()+"");
                         zhihuNewDate.setTitle(bean.getTitle());
                         zhihuNewDate.setPicUrl(bean.getImages().get(0));
+                        zhihuNewDate.setDate(list.getDate());
                         data.add(zhihuNewDate);
                     }
                     callBack.loadDateSucceed(data);

@@ -11,7 +11,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        >
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -49,9 +49,12 @@
 
     </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
-    <fragment
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:name="cn.henryzhuhao.easynews.business.newsscan.ZhihuNewsListFragment"
-        android:layout_gravity="start"/>
+<android.support.design.widget.NavigationView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    app:headerLayout="@layout/navi_header"
+    app:menu="@menu/navibaritem"/>
+
 </android.support.v4.widget.DrawerLayout>

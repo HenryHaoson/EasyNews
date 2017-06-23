@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -27,8 +26,8 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/artical_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:titleTextColor="#ffffff" />

@@ -25,9 +25,12 @@ public class App extends Application {
     public OkHttpClient okHttpClient;
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
+    private int userId;
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     public String ZhihuId;
+
+    public String headImageUrl;
 
     public String getZhihuId() {
         return ZhihuId;
@@ -42,16 +45,17 @@ public class App extends Application {
         super.onCreate();
         instance=this;
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
             return;
         }
         LeakCanary.install(this);
-        // Normal app init code...
-
         initOkHttp();
         setDatabase();
         LoginStatus= (int) SPUtils.get(getApplicationContext(),AppContants.SP_LOGINSTATUS, LOGINSTATUS_LOGOUT);
+        if(LoginStatus==AppContants.LOGINSTATUS_LOGIN){
+            userId= (int) SPUtils.get(getApplicationContext(),"userId",1);
+            headImageUrl= (String) SPUtils.get(getApplicationContext(),"headimage","/storage/emulated/0/Pictures/Screenshots/Screenshot_20170623-144951.png");
+        }
+
     }
     private void initOkHttp() {
         okhttp3.OkHttpClient.Builder ClientBuilder=new okhttp3.OkHttpClient.Builder();
@@ -67,13 +71,9 @@ public class App extends Application {
      * 设置greenDao
      */
     private void setDatabase() {
-        // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
-        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
-        // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
-        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
+
         mHelper = new DaoMaster.DevOpenHelper(this, "easyschool-db1", null);
         db = mHelper.getWritableDatabase();
-        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
         mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
     }
@@ -91,5 +91,21 @@ public class App extends Application {
     public void setLoginStatus(int loginStatus) {
         LoginStatus = loginStatus;
         SPUtils.put(getApplicationContext(), SP_LOGINSTATUS,loginStatus);
+    }
+    public int getUser() {
+        return userId;
+    }
+
+    public void setUser(int user) {
+        this.userId = user;
+        SPUtils.put(getApplicationContext(),"userId",user);
+    }
+    public String getHeadImageUrl() {
+        return headImageUrl;
+    }
+
+    public void setHeadImageUrl(String headImageUrl) {
+        this.headImageUrl = headImageUrl;
+        SPUtils.put(getApplicationContext(),"headimage",headImageUrl);
     }
 }

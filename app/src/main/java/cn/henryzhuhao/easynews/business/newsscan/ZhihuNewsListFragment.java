@@ -83,7 +83,7 @@ public class ZhihuNewsListFragment extends BaseFragment implements ZhihuNewsList
 
     @Override
     public void showContentView() {
-            Object object=new Object();
+
 
     }
 

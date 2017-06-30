@@ -148,5 +148,9 @@ public class SupportActivity extends AppCompatActivity implements SupportActivit
         SupportFragment fragmentByTag = (SupportFragment)fm.findFragmentByTag(mFragmentStack.getFragmentStack().get(0));
         return fragmentByTag;
     }
+    public SupportFragment getFragment(int i){
+        SupportFragment fragmentByTag = (SupportFragment)fm.findFragmentByTag(mFragmentStack.getFragmentStack().get(i));
+        return fragmentByTag;
+    }
 
 }

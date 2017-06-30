@@ -1,10 +1,7 @@
-package cn.henryzhuhao.easynews.business.login.model;
-
-import android.util.Log;
+package cn.henryzhuhao.easynews.business.newsscan.model;
 
 import cn.henryzhuhao.easynews.business.Api.TopNewsApi;
-import cn.henryzhuhao.easynews.entity.RegisterBean;
-import cn.henryzhuhao.easynews.entity.ResponseBean.CommonBean;
+import cn.henryzhuhao.easynews.entity.ResponseBean.TopNewsList;
 import cn.henryzhuhao.mainframe.frame.base.action.BaseModel;
 import cn.henryzhuhao.mainframe.net.ApiFactory;
 import io.reactivex.Observable;
@@ -14,32 +11,29 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by HenryZhuhao on 2017/6/23.
+ * Created by HenryZhuhao on 2017/6/26.
  */
 
-public class RegisterModel implements BaseModel {
-    public void register(RegisterBean body, final LoadDateCallBack<CommonBean> callBack){
+public class TopNewsListModel {
+    public void getTopNewsList(final BaseModel.LoadDateCallBack<TopNewsList> callBack){
         TopNewsApi api= ApiFactory.newInstance().createApi(TopNewsApi.class);
-        Observable<CommonBean> observable=api.register(body.getUsername(),body.getPassword(),body.getNickname()
-        ,body.getSex(),body.getBirthday(),body.getIntroduction(),body.getImageUrl());
+        Observable<TopNewsList> observable=api.getTopNewsList();
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CommonBean>() {
+                .subscribe(new Observer<TopNewsList>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(CommonBean value) {
+                    public void onNext(TopNewsList value) {
                         callBack.loadDateSucceed(value);
-                        Log.e("register","registerModel"+value.getMsg());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        callBack.loadDateFailed(e.toString());
-                        Log.e("register","registerModel"+e.toString());
+
                     }
 
                     @Override

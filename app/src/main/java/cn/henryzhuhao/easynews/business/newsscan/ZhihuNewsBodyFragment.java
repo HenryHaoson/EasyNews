@@ -114,7 +114,7 @@ public class ZhihuNewsBodyFragment extends BaseFragment implements ZhihuNewsBody
     public class JsInteraction {
         @JavascriptInterface
         public void startPhotoView() {   //提供给js调用的方法
-            ((MainActivity)getActivity()).startfragment(R.id.activity_container, HphotoFragment.newInstance(getImgs(htmlbody)));
+            ((MainActivity)getActivity()).startfragment(R.id.activity_container, HphotoFragment.newInstance(getImgs(htmlbody),0));
 
         }
     }

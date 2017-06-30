@@ -1,5 +1,6 @@
 package cn.henryzhuhao.easynews.business.login.presenter;
 
+import cn.henryzhuhao.easynews.app.App;
 import cn.henryzhuhao.easynews.business.login.model.LoginModel;
 import cn.henryzhuhao.easynews.business.login.view.LoginView;
 import cn.henryzhuhao.easynews.entity.ResponseBean.LoginBean;
@@ -23,6 +24,7 @@ public class LoginPresenter {
             public void loadDateSucceed(LoginBean date) {
                 if(date.getMsg().equals("success")){
                     view.loginSucess(true);
+                    App.getInstance().setUser(date.getData().getId());
                 }
             }
 

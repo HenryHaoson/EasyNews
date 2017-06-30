@@ -11,6 +11,7 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         startfragment(R.id.activity_container, Fragment_main.newInstance());
          // startfragment(R.id.activity_container, VideoListFragment.newInstance());
+//        startfragment(R.id.activity_container, PublishFragment.newInstance());
     }
 
     @Override

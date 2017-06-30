@@ -1,11 +1,14 @@
 package cn.henryzhuhao.mainframe.view.photoview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.List;
 
@@ -36,8 +39,13 @@ public class HpagerViewAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        PhotoView photoView = new PhotoView(container.getContext());
-        Glide.with(context).load(mImages.get(position)).into(photoView);
+        final PhotoView photoView = new PhotoView(container.getContext());
+        Glide.with(context).load(mImages.get(position)).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                photoView.setImageBitmap(resource);
+            }
+        });
 
         // Now just add PhotoView to ViewPager and return it
         container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

@@ -139,7 +139,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         _registerButton.setEnabled(true);
         if(isSuccess){
             App.getInstance().setLoginStatus(AppContants.LOGINSTATUS_LOGIN);
-            ((MainActivity) getActivity()).show(((MainActivity) getActivity()).getPreFragment());}
+            ((MainActivity) getActivity()).show(((MainActivity) getActivity()).getFragment(1));}
     }
     @Override
     public void registerFailed(String errorMsg) {

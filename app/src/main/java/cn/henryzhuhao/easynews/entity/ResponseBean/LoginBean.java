@@ -39,7 +39,6 @@ public class LoginBean
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
     public static class DataBean {
         /**
          * id : 1

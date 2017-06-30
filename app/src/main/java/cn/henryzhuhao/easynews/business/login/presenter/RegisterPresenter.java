@@ -1,7 +1,5 @@
 package cn.henryzhuhao.easynews.business.login.presenter;
 
-import android.util.Log;
-
 import cn.henryzhuhao.easynews.business.login.model.RegisterModel;
 import cn.henryzhuhao.easynews.business.login.view.RegisterView;
 import cn.henryzhuhao.easynews.entity.RegisterBean;
@@ -21,7 +19,6 @@ public class RegisterPresenter {
         model=new RegisterModel();
     }
     public void register(RegisterBean body){
-        Log.d("register","register presentering");
         model.register(body, new BaseModel.LoadDateCallBack<CommonBean>() {
             @Override
             public void loadDateSucceed(CommonBean date) {

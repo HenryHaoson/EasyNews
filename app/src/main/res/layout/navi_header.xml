@@ -22,7 +22,8 @@
         android:layout_above="@id/id_link"
         android:text="Henryhaoson"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/nav_headimg"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_above="@id/id_username"
